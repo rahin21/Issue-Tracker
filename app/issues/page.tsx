@@ -1,9 +1,14 @@
-import React from 'react'
+"use client";
 
-const IssuePage = () => {
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
+export default function IssuePage() {
   return (
-    <div>IssuePage</div>
-  )
+    <div className="">
+      <Link href={"/issues/create-Issue"}>
+        <Button>Create Issue</Button>
+      </Link>
+    </div>
+  );
 }
-
-export default IssuePage
