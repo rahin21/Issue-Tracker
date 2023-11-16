@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-const axios = require("axios");
+import axios, { AxiosResponse } from "axios";
 import {
   Form,
   FormControl,
@@ -29,7 +29,7 @@ const FormSchema = z.object({
 });
 
 
-export default function IssuePage() {
+export default function CreateIssuePage() {
     const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -45,9 +45,9 @@ export default function IssuePage() {
         .post("/api/auth/createIssue", {
           title: data.title,
           description: data.description,
-          status: "OPEN",
+          status: "Open",
         })
-        .then((res: Response) => console.log(res))
+        .then((res: AxiosResponse) => console.log(res))
         .catch((err: Error) => {
           console.log(err);
         });

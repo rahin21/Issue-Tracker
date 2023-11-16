@@ -1,7 +1,6 @@
 import { connectToDatabase } from "@/app/helpers/server-helpers";
 import prisma from "@/prisma";
 import { NextResponse } from "next/server";
-const cors = require('cors')
 export const POST = async (req: Request) => {
     try {
         const { title, description, status } = await req.json();
