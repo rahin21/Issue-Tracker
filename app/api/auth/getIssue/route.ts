@@ -2,7 +2,7 @@ import { connectToDatabase } from "@/app/helpers/server-helpers";
 import prisma from "@/prisma";
 import { NextResponse } from "next/server";
 
-export const GET = async (res:Response) => {
+export const GET = async () => {
     try {
         await connectToDatabase();
         const getIssue = await prisma.issue.findMany({})

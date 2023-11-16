@@ -12,12 +12,22 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import MarkdownPreview from '@uiw/react-markdown-preview';
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import MarkdownPreview from "@uiw/react-markdown-preview";
 import axios, { AxiosResponse } from "axios";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -51,9 +61,28 @@ export default function IssuePage() {
 
   return (
     <div className="">
-      <Link href={"/issues/create-Issue"}>
-        <Button>Create Issue</Button>
-      </Link>
+      <div className="flex justify-between py-10">
+        <Select>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Status" />
+          </SelectTrigger>
+          <SelectContent >
+            <SelectItem value="All">All Status</SelectItem>
+            <SelectItem value="open">
+              <StatusStyle status="Open" />{" "}
+            </SelectItem>
+            <SelectItem value="closed">
+              <StatusStyle status="Closed" />{" "}
+            </SelectItem>
+            <SelectItem value="inProcess">
+              <StatusStyle status="In Process" />{" "}
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        <Link href={"/issues/create-Issue"}>
+          <Button>Create Issue</Button>
+        </Link>
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -79,14 +108,14 @@ export default function IssuePage() {
                   <DialogTrigger asChild>
                     <Button>View</Button>
                   </DialogTrigger>
-                  <DialogContent >
+                  <DialogContent>
                     <DialogHeader>
                       <DialogTitle>{issue.title}</DialogTitle>
                     </DialogHeader>
                     <div className=" space-x-2">
                       <DialogTitle>Description: </DialogTitle>
                       <DialogDescription>
-                      <MarkdownPreview source={issue.description} />
+                        <MarkdownPreview source={issue.description} />
                       </DialogDescription>
                     </div>
                     <div className="flex items-center space-x-2">
