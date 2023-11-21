@@ -9,39 +9,20 @@ import {
 } from "@/components/ui/table";
 
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
-import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 
-import MarkdownPreview from "@uiw/react-markdown-preview";
 import axios, { AxiosResponse } from "axios";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import StatusStyle from "@/components/status-style";
-
-interface issuesTypeI {
-  id: string;
-  title: string;
-  status: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import ViewButton from "@/components/view-button";
+import { issuesTypeI } from "@/types/types";
 
 export default function IssuePage() {
   const [data, setData] = useState<issuesTypeI[]>([]);
@@ -61,12 +42,12 @@ export default function IssuePage() {
 
   return (
     <div className="">
-      <div className="flex justify-between py-10">
+      <div className="flex justify-between py-10 ">
         <Select>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Status" />
           </SelectTrigger>
-          <SelectContent >
+          <SelectContent>
             <SelectItem value="All">All Status</SelectItem>
             <SelectItem value="open">
               <StatusStyle status="Open" />{" "}
@@ -104,41 +85,19 @@ export default function IssuePage() {
                 {String(new Date(issue.createdAt)).slice(0, -45)}
               </TableCell>
               <TableCell className="text-center">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button>View</Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>{issue.title}</DialogTitle>
-                    </DialogHeader>
-                    <div className=" space-x-2">
-                      <DialogTitle>Description: </DialogTitle>
-                      <DialogDescription>
-                        <MarkdownPreview source={issue.description} />
-                      </DialogDescription>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <DialogTitle>Status: </DialogTitle>
-                      <StatusStyle status={issue.status} />
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <DialogTitle>Created At: </DialogTitle>
-                      <DialogDescription>
-                        {String(new Date(issue.createdAt)).slice(0, -35)}
-                      </DialogDescription>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <DialogTitle>Updated At: </DialogTitle>
-                      <DialogDescription>
-                        {String(new Date(issue.updatedAt)).slice(0, -35)}
-                      </DialogDescription>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                <ViewButton issue={issue} />
               </TableCell>
               <TableCell className="text-center">
-                <Button>Edit</Button>
+                <Link
+                  href={{
+                    pathname: "/issues/edit-Issue",
+                    query: {
+                      id: issue.id,
+                    },
+                  }}
+                >
+                  <Button>Edit</Button>
+                </Link>
               </TableCell>
             </TableRow>
           ))}

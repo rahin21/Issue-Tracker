@@ -5,7 +5,6 @@ export const POST = async (req: Request) => {
     try {
         const { title, description, status } = await req.json();
         if(!title || !description || !status) return NextResponse.json({message: "Invalid Data"}, {status: 422})
-        await connectToDatabase()
         const newIssue = await prisma.issue.create({
             data:{
                 title,

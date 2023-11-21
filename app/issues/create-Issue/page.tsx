@@ -28,9 +28,8 @@ const FormSchema = z.object({
   }),
 });
 
-
 export default function CreateIssuePage() {
-    const router = useRouter();
+  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -40,7 +39,7 @@ export default function CreateIssuePage() {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    try {  
+    try {
       await axios
         .post("/api/auth/createIssue", {
           title: data.title,
@@ -51,9 +50,9 @@ export default function CreateIssuePage() {
         .catch((err: Error) => {
           console.log(err);
         });
-        router.push('/issues');
+      router.push("/issues");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
