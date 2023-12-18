@@ -10,6 +10,7 @@ const NavBar = () => {
     { label: "Dashboard", href: "/" },
     { label: "Issues", href: "/issues" },
   ];
+  
   return (
     <div className="border-b-[1px] border-zinc-300 ">
       <div className="flex h-14 container mx-auto space-x-6 text-xl font-semibold items-center">

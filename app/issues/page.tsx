@@ -26,6 +26,7 @@ import { issuesTypeI } from "@/types/types";
 
 export default function IssuePage() {
   const [data, setData] = useState<issuesTypeI[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<string>('All');
   useEffect(() => {
     const issues = async () => {
       await axios
@@ -39,23 +40,23 @@ export default function IssuePage() {
     };
     issues();
   }, []);
-
+ 
   return (
     <div className="">
       <div className="flex justify-between py-10 ">
-        <Select>
+        <Select onValueChange={(value)=>setSelectedStatus(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Status" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="All">All Status</SelectItem>
-            <SelectItem value="open">
+            <SelectItem value="Open">
               <StatusStyle status="Open" />{" "}
             </SelectItem>
-            <SelectItem value="closed">
+            <SelectItem value="Closed">
               <StatusStyle status="Closed" />{" "}
             </SelectItem>
-            <SelectItem value="inProcess">
+            <SelectItem value="In Process">
               <StatusStyle status="In Process" />{" "}
             </SelectItem>
           </SelectContent>
@@ -76,6 +77,7 @@ export default function IssuePage() {
         </TableHeader>
         <TableBody>
           {data.map((issue) => (
+            selectedStatus === issue.status|| selectedStatus === "All"? 
             <TableRow key={issue.id}>
               <TableCell>{issue.title}</TableCell>
               <TableCell className="text-center">
@@ -100,6 +102,7 @@ export default function IssuePage() {
                 </Link>
               </TableCell>
             </TableRow>
+              :<div key={issue.id}></div>
           ))}
         </TableBody>
       </Table>

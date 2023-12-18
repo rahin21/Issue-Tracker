@@ -1,9 +1,10 @@
-import Image from 'next/image'
+import { BarChrt } from "@/components/dashboard/BarChrt";
+import Image from "next/image";
 
 export default function Home() {
   return (
-<div>
-  Dashboard 
-</div>
+    <>
+      <BarChrt/>
+    </>
   )
 }
