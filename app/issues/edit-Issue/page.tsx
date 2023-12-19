@@ -56,7 +56,7 @@ const EditIssue = ({ searchParams }: { searchParams: { id: string } }) => {
       }
     };
     uniqueIssue();
-  }, []);
+  }, [searchParams.id]);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     values: {

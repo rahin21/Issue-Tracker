@@ -1,6 +1,6 @@
 // @ts-nocheck
 import prisma from "@/prisma";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const DELETE = async (req: NextRequest) => {
     try {
@@ -10,7 +10,7 @@ export const DELETE = async (req: NextRequest) => {
                 id: url.searchParams.get('id')
             }
         })
-        return deleteIssue;
+        return NextResponse.json(deleteIssue);
     } catch (error) {
         console.log(error)
     } finally {

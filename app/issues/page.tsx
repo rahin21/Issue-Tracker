@@ -19,28 +19,16 @@ import {
 import axios, { AxiosResponse } from "axios";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import StatusStyle from "@/components/status-style";
 import ViewButton from "@/components/view-button";
-import { issuesTypeI } from "@/types/types";
+
+import useDisclosure from "@/hooks/useDisclosure";
 
 export default function IssuePage() {
-  const [data, setData] = useState<issuesTypeI[]>([]);
+  const {data, setData} = useDisclosure();
   const [selectedStatus, setSelectedStatus] = useState<string>('All');
-  useEffect(() => {
-    const issues = async () => {
-      await axios
-        .get("/api/auth/getIssue")
-        .then((res: AxiosResponse) => {
-          setData(res.data);
-        })
-        .catch((err: Error) => {
-          console.log(err);
-        });
-    };
-    issues();
-  }, []);
- 
+
   return (
     <div className="">
       <div className="flex justify-between py-10 ">
