@@ -82,19 +82,19 @@ export default function CreateIssuePage() {
               </FormItem>
             )}
           />
-          {/* <FormField
+          <FormField
             control={form.control}
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel id="description">Description</FormLabel>
                 <FormControl>
                   <SimpleMDE {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
           <div className="flex justify-end">
             <Button type="submit">Create An Issue</Button>
           </div>
