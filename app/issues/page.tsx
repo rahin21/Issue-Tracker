@@ -49,7 +49,7 @@ export default function IssuePage() {
             </SelectItem>
           </SelectContent>
         </Select>
-        <Link href={"/issues/create-issue"}>
+        <Link href={"/issues/create-issue"} prefetch={false}>
           <Button>Create Issue</Button>
         </Link>
       </div>
