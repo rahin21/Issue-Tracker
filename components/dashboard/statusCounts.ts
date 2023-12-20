@@ -1,13 +1,13 @@
 import { issuesTypeI } from "@/types/types";
 
-let open = 0;
-let close = 0;
-let process = 0;
 export const statusCount = (datas:issuesTypeI[])=>{
+    let open = 0;
+    let close = 0;
+    let process = 0;
     datas.map((data)=>{
         if(data.status==='Open') open++
         if(data.status==='Closed') close++
         if(data.status==='In Process') process++
     })
+    return {open, close, process}
 }
-export {open, close, process}

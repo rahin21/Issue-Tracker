@@ -1,15 +1,21 @@
 "use client";
 
 import useDisclosure from "@/hooks/useDisclosure";
+import { issuesTypeI } from "@/types/types";
 import { useEffect, useState } from "react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { statusCount, open, close, process } from "./statusCounts";
-
+import { statusCount } from "./statusCounts";
 
 export function BarChrt() {
+
   
   const {data, setData} = useDisclosure();
-  statusCount(data);
+ 
+  const {open, close, process} = statusCount(data);
+
+  
+    console.log(open, close, process)
+
   const status = [
     {
       name: "Open",
@@ -24,6 +30,7 @@ export function BarChrt() {
       total: process,
     },
   ];
+  const total: number = open+ close+ process
   return (
     <div className="border-4 py-10 border-slate rounded-lg">
       <h1 className="text-xl font-semibold"> Status Chart</h1>
@@ -46,7 +53,7 @@ export function BarChrt() {
             tickLine={false}
             axisLine={false}
           />
-          <Bar dataKey="total" radius={[6, 6, 0, 0]} fill="#c084fc" />
+          <Bar dataKey={"total"} radius={[6, 6, 0, 0]} fill="#c084fc" />
         </BarChart>
       </ResponsiveContainer>
     </div>
