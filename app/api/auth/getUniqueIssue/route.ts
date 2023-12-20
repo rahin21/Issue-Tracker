@@ -10,7 +10,7 @@ export const GET = async (req:NextRequest) => {
                 id: url.searchParams.get('id')
             }
         })
-        return NextResponse.json(getUniqueIssue)
+        return NextResponse.json({getUniqueIssue})
     } catch (error) {
         console.log(error)
     } finally {

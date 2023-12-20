@@ -13,7 +13,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import SimpleMDE from "react-simplemde-editor";
+import dynamic from "next/dynamic";
+
+const SimpleMDE = dynamic(
+	() => import("react-simplemde-editor"),
+	{ ssr: false }
+);
 import "easymde/dist/easymde.min.css";
 import Error from "next/error";
 import { useRouter } from "next/navigation";

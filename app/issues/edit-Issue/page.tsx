@@ -13,8 +13,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosResponse } from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import dynamic from "next/dynamic";
 
-import SimpleMDE from "react-simplemde-editor";
+const SimpleMDE = dynamic(
+	() => import("react-simplemde-editor"),
+	{ ssr: false }
+);
 import "easymde/dist/easymde.min.css";
 import { z } from "zod";
 import { issuesTypeI } from "@/types/types";
