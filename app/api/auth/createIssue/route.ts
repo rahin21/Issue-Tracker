@@ -12,7 +12,7 @@ export const POST = async (req: Request) => {
                 status
             }
         })
-        return NextResponse.json({newIssue}, {status:201})
+        return NextResponse.json(newIssue, {status:201})
     } catch (error) {
         console.log(error);
 
