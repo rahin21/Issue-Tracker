@@ -8,14 +8,8 @@ import { statusCount } from "./statusCounts";
 
 export function BarChrt() {
 
-  
   const {data, setData} = useDisclosure();
- 
   const {open, close, process} = statusCount(data);
-
-  
-    console.log(open, close, process)
-
   const status = [
     {
       name: "Open",
@@ -30,7 +24,6 @@ export function BarChrt() {
       total: process,
     },
   ];
-  const total: number = open+ close+ process
   return (
     <div className="border-4 py-10 border-slate rounded-lg">
       <h1 className="text-xl font-semibold"> Status Chart</h1>
