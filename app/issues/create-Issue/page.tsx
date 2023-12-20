@@ -88,9 +88,7 @@ export default function CreateIssuePage() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <SimpleMDE {...field} />
-                </FormControl>
+                  <SimpleMDE  />
                 <FormMessage />
               </FormItem>
             )}
