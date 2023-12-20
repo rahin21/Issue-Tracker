@@ -23,7 +23,6 @@ import "easymde/dist/easymde.min.css";
 import Error from "next/error";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { CreateIssue } from "./CreateIssue";
 
 const FormSchema = z.object({
   title: z.string().min(2, {
@@ -44,19 +43,18 @@ export default function CreateIssuePage() {
     },
   });
 
-  const onSubmit =  (data: z.infer<typeof FormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
-      // await axios
-      //   .post("/api/auth/createIssue", {
-      //     title: data.title,
-      //     description: data.description,
-      //     status: "Open",
-      //   })
-      //   .then((res: AxiosResponse) => console.log(res))
-      //   .catch((err: Error) => {
-      //     console.log(err);
-      //   });
-      CreateIssue(data)
+      await axios
+        .post("/api/auth/createIssue", {
+          title: data.title,
+          description: data.description,
+          status: "Open",
+        })
+        .then((res: AxiosResponse) => console.log(res))
+        .catch((err: Error) => {
+          console.log(err);
+        });
       router.push("/issues");
     } catch (error) {
       console.log(error);
