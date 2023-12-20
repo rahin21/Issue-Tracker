@@ -40,14 +40,14 @@ const FormSchema = z.object({
   }),
 });
 
-const EditIssue = ({ searchParams }: { searchParams: { id: string } }) => {
+const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
   const router = useRouter();
   const [data, setData] = useState<issuesTypeI>();
   useEffect(() => {
     const uniqueIssue = async () => {
       try {
         await axios
-          .get(`/api/auth/getUniqueIssue?id=${searchParams.id}`)
+          .get(`/api/auth/getUniqueIssue?id=${searchParams.id|| "id"}`)
           .then((res: AxiosResponse) => {
             setData(res.data);
           });

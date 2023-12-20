@@ -17,6 +17,7 @@ import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import Error from "next/error";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 const FormSchema = z.object({
   title: z.string().min(2, {

@@ -49,7 +49,7 @@ export default function IssuePage() {
             </SelectItem>
           </SelectContent>
         </Select>
-        <Link href={"/issues/create-Issue"}>
+        <Link href={"/issues/create-issue"}>
           <Button>Create Issue</Button>
         </Link>
       </div>
@@ -80,7 +80,7 @@ export default function IssuePage() {
               <TableCell className="text-center">
                 <Link
                   href={{
-                    pathname: "/issues/edit-Issue",
+                    pathname: "/issues/edit-issue",
                     query: {
                       id: issue.id,
                     },
