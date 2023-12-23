@@ -5,7 +5,7 @@ const StatusStyle = (props:{status: string}) => {
   return (
     <span
       className={cn(`${
-        props.status == `In Process`
+        props.status == `In Progress`
           ? `bg-purple-400/50 text-purple-700 p-2`
           : props.status == `Closed`
           ? `p-2 bg-green-400/50 text-green-700 `

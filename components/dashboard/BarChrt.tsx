@@ -1,15 +1,14 @@
 "use client";
 
 import useDisclosure from "@/hooks/useDisclosure";
-import { issuesTypeI } from "@/types/types";
-import { useEffect, useState } from "react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { statusCount } from "./statusCounts";
+import StatusCard from "./StatusCard";
 
 export function BarChrt() {
 
   const {data, setData} = useDisclosure();
-  const {open, close, process} = statusCount(data);
+  const {open, close, progress} = statusCount(data);
   const status = [
     {
       name: "Open",
@@ -21,20 +20,31 @@ export function BarChrt() {
     },
     {
       name: "In Progress",
-      total: process,
+      total: progress,
     },
   ];
   return (
-    <div className="border-4 py-10 border-slate rounded-lg">
-      <h1 className="text-xl font-semibold"> Status Chart</h1>
-      <ResponsiveContainer width="30%" height={350}>
-        <BarChart data={status}>
+    <div >
+      <div className="flex space-x-4 mb-4">
+        <StatusCard statusName="Open" statusNum={open}/>
+        <StatusCard statusName="Closed" statusNum={close}/>
+        <StatusCard statusName="In Progress" statusNum={progress}/>
+      </div>
+      <ResponsiveContainer height={320} className="border-2 border-muted-foreground/50 rounded-lg ">
+        <BarChart 
+        data={status}
+        margin={{
+          top: 30,
+          right: 30,
+          left: 0,
+          bottom: 5,
+        }}
+        barSize={70}>
           <XAxis
             dataKey="name"
+            padding={{left:10, right:10}}
             stroke="#6b4caa"
             fontSize={12}
-            tickLine={false}
-            axisLine={false}
           />
           <Tooltip />
           <YAxis
@@ -43,10 +53,8 @@ export function BarChrt() {
             stroke="#6b4caa"
             autoReverse
             fontSize={12}
-            tickLine={false}
-            axisLine={false}
           />
-          <Bar dataKey={"total"} radius={[6, 6, 0, 0]} fill="#c084fc" />
+          <Bar dataKey={"total"} radius={[2, 2, 0, 0]} fill="#c084fc" />
         </BarChart>
       </ResponsiveContainer>
     </div>

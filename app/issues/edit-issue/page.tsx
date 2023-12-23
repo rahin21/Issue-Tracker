@@ -95,7 +95,7 @@ const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center h-screen -mt-20">
+    <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-3xl font-bold">Edit Issue</h1>
       <Form {...form}>
         <form
@@ -142,8 +142,8 @@ const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
                       <SelectItem value="Closed">
                         <StatusStyle status="Closed" />{" "}
                       </SelectItem>
-                      <SelectItem value="In Process">
-                        <StatusStyle status="In Process" />{" "}
+                      <SelectItem value="In Progress">
+                        <StatusStyle status="In Progress" />{" "}
                       </SelectItem>
                     </SelectContent>
                   </Select>

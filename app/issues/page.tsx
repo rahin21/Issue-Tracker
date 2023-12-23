@@ -15,8 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-import axios, { AxiosResponse } from "axios";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -44,8 +42,8 @@ export default function IssuePage() {
             <SelectItem value="Closed">
               <StatusStyle status="Closed" />{" "}
             </SelectItem>
-            <SelectItem value="In Process">
-              <StatusStyle status="In Process" />{" "}
+            <SelectItem value="In Progress">
+              <StatusStyle status="In Progress" />{" "}
             </SelectItem>
           </SelectContent>
         </Select>
@@ -55,27 +53,27 @@ export default function IssuePage() {
       </div>
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead className="w-[40rem]">Issues</TableHead>
-            <TableHead className="text-center">Status</TableHead>
-            <TableHead className="text-center">Created At</TableHead>
-            <TableHead className="text-center w-[5rem]">View</TableHead>
-            <TableHead className="text-center w-[5rem]">Edit</TableHead>
+          <TableRow className="lg:text-xl text-xs">
+            <TableHead className="lg:w-[40rem] sm:w-[40%]">Issues</TableHead>
+            <TableHead className="text-center ">Status</TableHead>
+            <TableHead className="text-center lg:flex lg:items-center lg:justify-center hidden">Created At</TableHead>
+            <TableHead className="text-center lg:w-[5rem] w-0">View</TableHead>
+            <TableHead className="text-center lg:w-[5rem] w-0">Edit</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((issue) => (
+          {data.toReversed().map((issue) => (
             selectedStatus === issue.status|| selectedStatus === "All"? 
-            <TableRow key={issue.id}>
+            <TableRow key={issue.id} className="lg:text-xl sm:text-sm text-xs">
               <TableCell>{issue.title}</TableCell>
-              <TableCell className="text-center">
+              <TableCell className="text-center whitespace-nowrap ">
                 <StatusStyle status={issue.status} />
               </TableCell>
-              <TableCell className="text-center">
+              <TableCell className="text-center lg:block hidden">
                 {String(new Date(issue.createdAt)).slice(0, -45)}
               </TableCell>
               <TableCell className="text-center">
-                <ViewButton issue={issue} />
+                <ViewButton issue={issue}/>
               </TableCell>
               <TableCell className="text-center">
                 <Link

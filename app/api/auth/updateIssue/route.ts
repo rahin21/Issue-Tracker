@@ -16,7 +16,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
                 status
             }
         })
-        return NextResponse.json({data:newIssue}, {status:201})
+        return NextResponse.json(newIssue, {status:201})
     } catch(error) {
         console.log(error)
     } finally {
