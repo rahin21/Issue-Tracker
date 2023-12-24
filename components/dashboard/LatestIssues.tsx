@@ -25,7 +25,7 @@ const LatestIssues = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.slice(-5).map((issue) => (
+          {data.slice(-5).toReversed().map((issue) => (
             <TableRow key={issue.id}>
               <TableCell>{issue.title}</TableCell>
               <TableCell>
