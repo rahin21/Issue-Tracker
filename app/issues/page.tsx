@@ -62,7 +62,7 @@ export default function IssuePage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.toReversed().map((issue) => (
+          {data.reverse().map((issue) => (
             selectedStatus === issue.status|| selectedStatus === "All"? 
             <TableRow key={issue.id} className="lg:text-xl sm:text-sm text-xs">
               <TableCell>{issue.title}</TableCell>
