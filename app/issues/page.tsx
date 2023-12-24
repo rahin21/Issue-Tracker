@@ -37,13 +37,13 @@ export default function IssuePage() {
           <SelectContent>
             <SelectItem value="All">All Status</SelectItem>
             <SelectItem value="Open">
-              <StatusStyle status="Open" />{" "}
+              <StatusStyle status="Open"/>{" "}
             </SelectItem>
             <SelectItem value="Closed">
-              <StatusStyle status="Closed" />{" "}
+              <StatusStyle status="Closed"/>{" "}
             </SelectItem>
             <SelectItem value="In Progress">
-              <StatusStyle status="In Progress" />{" "}
+              <StatusStyle status="In Progress"/>{" "}
             </SelectItem>
           </SelectContent>
         </Select>
@@ -62,7 +62,7 @@ export default function IssuePage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.toReversed().map((issue) => (
+          {data.map((issue) => (
             selectedStatus === issue.status|| selectedStatus === "All"? 
             <TableRow key={issue.id} className="lg:text-xl sm:text-sm text-xs">
               <TableCell>{issue.title}</TableCell>
