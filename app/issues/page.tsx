@@ -20,7 +20,6 @@ import Link from "next/link";
 import { useState } from "react";
 import StatusStyle from "@/components/status-style";
 import ViewButton from "@/components/view-button";
-
 import useDisclosure from "@/hooks/useDisclosure";
 
 export default function IssuePage() {
