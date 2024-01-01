@@ -19,7 +19,7 @@ const LatestIssues = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Latest Issue</TableHead>
+            <TableHead className="whitespace-nowrap">Latest Issue</TableHead>
             <TableHead></TableHead>
             <TableHead></TableHead>
           </TableRow>
@@ -28,7 +28,7 @@ const LatestIssues = () => {
           {data.slice(-5).reverse().map((issue) => (
             <TableRow key={issue.id}>
               <TableCell>{issue.title}</TableCell>
-              <TableCell>
+              <TableCell className="whitespace-nowrap">
                 <StatusStyle status={issue.status} />
               </TableCell>
               <TableCell className="text-center">
