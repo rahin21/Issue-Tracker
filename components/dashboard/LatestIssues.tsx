@@ -11,9 +11,11 @@ import {
 } from "@/components/ui/table";
 import StatusStyle from "../status-style";
 import ViewButton from "../view-button";
+import { Skeleton } from "../ui/skeleton";
 
 const LatestIssues = () => {
   const { data } = useDisclosure();
+  const array = [1, 2, 3, 4, 5];
   return (
     <div>
       <Table>
@@ -25,7 +27,22 @@ const LatestIssues = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.slice(-5).reverse().map((issue) => (
+          {data.length === 0
+            ? array.map((arr) => (
+                <TableRow key={arr}>
+                  <TableCell>
+                    <Skeleton className="w-[100px] h-[20px] rounded-full" />
+                  </TableCell>
+                  <TableCell className="pl-[8rem]">
+                    <Skeleton className="w-[100px] h-[20px] rounded-full" />
+                  </TableCell>
+                  <TableCell className="">
+                    <Skeleton className="w-[80px] h-[20px] rounded-full" />
+                  </TableCell>
+                  
+                </TableRow>
+              ))
+          :data.slice(-5).reverse().map((issue) => (
             <TableRow key={issue.id}>
               <TableCell>{issue.title}</TableCell>
               <TableCell className="whitespace-nowrap">
