@@ -68,19 +68,19 @@ export default function IssuePage() {
             ? array.map((arr) => (
                 <TableRow key={arr}>
                   <TableCell>
-                    <Skeleton className="w-[100px] h-[20px] rounded-full" />
+                    <Skeleton className="w-[100px] h-[25px] rounded-full" />
                   </TableCell>
                   <TableCell className="pl-20">
-                    <Skeleton className="w-[80px] h-[20px] rounded-full" />
+                    <Skeleton className="w-[80px] h-[25px] rounded-full" />
                   </TableCell>
                   <TableCell className="pl-[4.25rem]">
-                    <Skeleton className="w-[90px] h-[20px] rounded-full" />
+                    <Skeleton className="w-[90px] h-[25px] rounded-full my-[7.25px]" />
                   </TableCell>
                   <TableCell>
-                    <Skeleton className="w-[80px] h-[20px] rounded-full" />
+                    <Skeleton className="w-[80px] h-[25px] rounded-full" />
                   </TableCell>
                   <TableCell>
-                    <Skeleton className="w-[80px] h-[20px] rounded-full" />
+                    <Skeleton className="w-[80px] h-[25px] rounded-full" />
                   </TableCell>
                 </TableRow>
               ))

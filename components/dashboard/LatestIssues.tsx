@@ -31,13 +31,13 @@ const LatestIssues = () => {
             ? array.map((arr) => (
                 <TableRow key={arr}>
                   <TableCell>
-                    <Skeleton className="w-[100px] h-[20px] rounded-full" />
+                    <Skeleton className="w-[100px] h-[25px] rounded-full" />
                   </TableCell>
                   <TableCell className="pl-[8rem]">
-                    <Skeleton className="w-[100px] h-[20px] rounded-full" />
+                    <Skeleton className="w-[100px] h-[25px] rounded-full my-[7.25px]" />
                   </TableCell>
                   <TableCell className="">
-                    <Skeleton className="w-[80px] h-[20px] rounded-full" />
+                    <Skeleton className="w-[80px] h-[25px] rounded-full" />
                   </TableCell>
                   
                 </TableRow>
