@@ -8,7 +8,7 @@ const useDisclosure = () => {
           await axios
             .get("/api/auth/getIssue")
             .then((res: AxiosResponse) => {
-              setData(res.data);
+              setData(res.data.reverse());
             })
             .catch((err: Error) => {
               console.log(err);

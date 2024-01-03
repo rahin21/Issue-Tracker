@@ -42,7 +42,7 @@ const LatestIssues = () => {
                   
                 </TableRow>
               ))
-          :data.slice(-5).reverse().map((issue) => (
+          :data.slice(0,5-data.length).map((issue) => (
             <TableRow key={issue.id}>
               <TableCell>{issue.title}</TableCell>
               <TableCell className="whitespace-nowrap">

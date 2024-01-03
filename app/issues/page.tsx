@@ -22,14 +22,27 @@ import StatusStyle from "@/components/status-style";
 import ViewButton from "@/components/view-button";
 import useDisclosure from "@/hooks/useDisclosure";
 import { Skeleton } from "@/components/ui/skeleton";
+import PaginationControls from "@/components/PaginationControls";
 
-export default function IssuePage() {
+export default function IssuePage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const { data, setData } = useDisclosure();
   const [selectedStatus, setSelectedStatus] = useState<string>("All");
-  const array = [1, 2, 3, 4, 5, 6, 7, 8];
+  const array = [1, 2, 3, 4, 5, 6, 7];
+  const page = searchParams["page"] ?? "1";
+  const per_page = searchParams["per_page"] ?? "7";
+  // setData(data.reverse())
+  // mocked, skipped and limited in the real app
+  const start = (Number(page) - 1) * Number(per_page); // 0, 5, 10 ...
+  const end = start + Number(per_page); // 5, 10, 15 ...
+
+  const entries = data.slice(start, end);
   return (
     <div className="">
-      <div className="flex justify-between py-10 ">
+      <div className="flex justify-between py-5 md:py-10 ">
         <Select onValueChange={(value) => setSelectedStatus(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Status" />
@@ -47,10 +60,22 @@ export default function IssuePage() {
             </SelectItem>
           </SelectContent>
         </Select>
+        <div className="hidden md:block">
+          <PaginationControls
+            hasNextPage={end < data.length}
+            hasPrevPage={start > 0}
+          />
+        </div>
         <Link href={"/issues/create-issue"}>
           <Button>Create Issue</Button>
         </Link>
       </div>
+      <div className="flex justify-center mb-4 md:hidden">
+          <PaginationControls
+            hasNextPage={end < data.length}
+            hasPrevPage={start > 0}
+          />
+        </div>
       <Table>
         <TableHeader>
           <TableRow className="lg:text-xl text-xs">
@@ -84,7 +109,7 @@ export default function IssuePage() {
                   </TableCell>
                 </TableRow>
               ))
-            : data.reverse().map((issue) =>
+            : entries.map((issue) =>
                 selectedStatus === issue.status || selectedStatus === "All" ? (
                   <TableRow
                     key={issue.id}
@@ -119,6 +144,7 @@ export default function IssuePage() {
               )}
         </TableBody>
       </Table>
+      
     </div>
   );
 }
