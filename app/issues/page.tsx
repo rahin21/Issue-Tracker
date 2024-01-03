@@ -34,12 +34,12 @@ export default function IssuePage({
   const array = [1, 2, 3, 4, 5, 6, 7];
   const page = searchParams["page"] ?? "1";
   const per_page = searchParams["per_page"] ?? "7";
-  // setData(data.reverse())
   // mocked, skipped and limited in the real app
   const start = (Number(page) - 1) * Number(per_page); // 0, 5, 10 ...
   const end = start + Number(per_page); // 5, 10, 15 ...
 
   const entries = data.slice(start, end);
+  console.log(data)
   return (
     <div className="">
       <div className="flex justify-between py-5 md:py-10 ">
