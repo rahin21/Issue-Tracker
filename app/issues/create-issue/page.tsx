@@ -67,7 +67,7 @@ export default function CreateIssuePage() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-2/3 space-y-6"
+          className="md:w-2/3 space-y-6"
         >
           <FormField
             control={form.control}

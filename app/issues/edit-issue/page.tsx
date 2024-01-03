@@ -64,8 +64,8 @@ const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     values: {
-      title: data?.title || "",
-      description: data?.description || "",
+      title: data?.title || "Loading...",
+      description: data?.description || "Loading...",
       status: data?.status || "",
     },
   });
@@ -95,14 +95,14 @@ const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center py-10 md:py-0 md:h-[90vh]">
       <h1 className="text-3xl font-bold">Edit Issue</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onUpdate)}
-          className="w-2/3 space-y-6"
+          className="md:w-2/3 space-y-6"
         >
-          <div className="flex justify-between items-center">
+          <div className="md:flex justify-between items-center">
             <FormField
               control={form.control}
               name="title"
@@ -113,7 +113,7 @@ const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
                     <Input
                       placeholder="Title"
                       {...field}
-                      className="w-[42rem]"
+                      className="lg:w-[42rem] md:w-[25rem]"
                     />
                   </FormControl>
                   <FormMessage />
@@ -124,7 +124,7 @@ const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
               control={form.control}
               name="status"
               render={({ field }) => (
-                <FormItem>
+                <FormItem  className="md:mt-0 mt-5">
                   <FormLabel>Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
