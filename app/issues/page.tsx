@@ -23,7 +23,7 @@ import ViewButton from "@/components/view-button";
 import useDisclosure from "@/hooks/useDisclosure";
 import { Skeleton } from "@/components/ui/skeleton";
 import PaginationControls from "@/components/PaginationControls";
-
+export const dynamic = 'force-dynamic';
 export default function IssuePage({
   searchParams,
 }: {
