@@ -6,7 +6,7 @@ export const GET = async () => {
     try {
         await prisma.$connect();
         const getIssue = await prisma.issue.findMany({})
-        return NextResponse.json(getIssue)
+        return NextResponse.json(getIssue,{status:200})
     } catch (error) {
         console.log(error)
     }finally {
