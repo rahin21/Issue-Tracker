@@ -6,7 +6,12 @@ const useDisclosure = () => {
     useEffect(() => {
         const issues = async () => {
           await axios
-            .get("/api/auth/getIssue")
+            .get("/api/auth/getIssue",{
+              headers:{
+                'Content-Type': 'application/json',
+                'API-Key': process.env.DATA_API_KEY!,
+              }
+            })
             .then((res: AxiosResponse) => {
               setData(res.data.reverse());
             })
