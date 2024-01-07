@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 
 export const GET = async () => {
     try {
+        connectToDatabase
         const getIssue = await prisma.issue.findMany({})
         return NextResponse.json(getIssue)
     } catch (error) {
