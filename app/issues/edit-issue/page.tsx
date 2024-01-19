@@ -95,7 +95,7 @@ const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center py-10 md:py-0 md:h-[90vh]">
+    <div className="flex flex-col items-center md:my-[7rem] my-[5rem]">
       <h1 className="text-3xl font-bold">Edit Issue</h1>
       <Form {...form}>
         <form
