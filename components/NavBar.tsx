@@ -14,9 +14,9 @@ const NavBar = () => {
   return (
     <div className="border-b-[1px] border-zinc-300 ">
       <div className="flex h-14 container mx-auto space-x-6 text-xl font-semibold items-center">
-        <Link href={"/"}>
+        <a href={"/"}>
           <FaBug className='text-zinc-800' />
-        </Link>
+        </a>
         <ul className="flex space-x-6">
           {navItems.map((navItem) => (
             <Link
