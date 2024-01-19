@@ -16,7 +16,7 @@ const useDisclosure = () => {
       await fetch("/api/auth/getIssue", {
         method: "GET",
         next: { revalidate: 1 },
-        cache: 'no-store'
+        cache: "no-cache"
       })
         .then((res) => res.json())
         .then((data: any) => {
