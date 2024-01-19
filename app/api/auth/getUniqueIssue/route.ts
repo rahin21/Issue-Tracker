@@ -17,4 +17,4 @@ export const GET = async (req:NextRequest) => {
         prisma.$disconnect
     }
 }
-export const runtime = 'nodejs'
+export const fetchCache = 'force-no-store';
