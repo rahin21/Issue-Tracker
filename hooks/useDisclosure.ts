@@ -17,7 +17,8 @@ const useDisclosure = () => {
       //   });
       noStore();
       await fetch("/api/auth/getIssue", {
-        cache: "no-store"
+        cache: "no-store",
+        next: {revalidate:0}
       })
         .then((res) => res.json())
         .then((data: any) => {
@@ -30,4 +31,5 @@ const useDisclosure = () => {
   return { data, setData };
 };
 
+export const fetchCache = 'force-no-store';
 export default useDisclosure;
