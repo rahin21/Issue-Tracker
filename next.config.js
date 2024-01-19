@@ -2,6 +2,7 @@
 
 /** @type {import('next').NextConfig} */
 module.exports = {
+  generateEtags: false,
     async headers() {
         return [
           {
