@@ -23,6 +23,7 @@ import "easymde/dist/easymde.min.css";
 import Error from "next/error";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { revalidatePath } from "next/cache";
 
 const FormSchema = z.object({
   title: z.string().min(2, {
@@ -55,6 +56,7 @@ export default function CreateIssuePage() {
         .catch((err: Error) => {
           console.log(err);
         });
+      revalidatePath("/issues");
       router.push("/issues");
     } catch (error) {
       console.log(error);
