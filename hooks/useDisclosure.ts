@@ -14,7 +14,7 @@ const useDisclosure = () => {
       //     console.log(err);
       //   });
       await fetch("/api/auth/getIssue", {
-        cache: "no-cache"
+        cache: "no-store"
       })
         .then((res) => res.json())
         .then((data: any) => {
