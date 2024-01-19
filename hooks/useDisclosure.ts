@@ -1,6 +1,8 @@
+"use client"
 import { issuesTypeI } from "@/types/types";
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
+import { unstable_noStore as noStore } from 'next/cache';
 
 const useDisclosure = () => {
   useEffect(() => {
@@ -13,6 +15,7 @@ const useDisclosure = () => {
       //   .catch((err: Error) => {
       //     console.log(err);
       //   });
+      noStore();
       await fetch("/api/auth/getIssue", {
         cache: "no-store"
       })
