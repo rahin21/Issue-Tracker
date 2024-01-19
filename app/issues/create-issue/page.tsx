@@ -56,7 +56,6 @@ export default function CreateIssuePage() {
         .catch((err: Error) => {
           console.log(err);
         });
-      revalidatePath("/issues");
       router.push("/issues");
     } catch (error) {
       console.log(error);
