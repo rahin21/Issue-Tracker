@@ -6,11 +6,7 @@ module.exports = {
         return [
           {
             // matching all API routes
-            source: "/api/auth/:path*",
-            experimental: {
-              appDir: true,
-              isrCache: false,
-            },
+            source: "/:path*",
             headers: [
               { key: 'Cache-Control',value: 'no cache, no-store, must-revalidate'},
             ]
