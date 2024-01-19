@@ -16,7 +16,10 @@ const useDisclosure = () => {
       //     console.log(err);
       //   });
       noStore();
-      await fetch("/api/auth/getIssue")
+      await fetch("/api/auth/getIssue", {
+        cache: "no-store",
+        next: {revalidate:0}
+      })
         .then((res) => res.json())
         .then((data: any) => {
           setData(data.reverse());
