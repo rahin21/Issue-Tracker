@@ -8,7 +8,7 @@ module.exports = {
             // matching all API routes
             source: "/api/auth/:path*",
             headers: [
-              { key: 'Cache-Control',value: 'no-store'},
+              { key: 'Cache-Control',value: 'no cache, no-store, must-revalidate'},
             ]
           }
         ]
