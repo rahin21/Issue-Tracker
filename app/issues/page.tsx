@@ -39,7 +39,6 @@ export default function IssuePage({
   const end = start + Number(per_page); // 5, 10, 15 ...
 
   const entries = data.slice(start, end);
-  console.log(data)
   return (
     <div className="">
       <div className="flex justify-between py-5 md:py-10 ">

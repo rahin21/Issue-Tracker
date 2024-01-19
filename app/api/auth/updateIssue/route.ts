@@ -4,11 +4,11 @@ import { NextRequest, NextResponse } from "next/server";
 export const POST = async (req: NextRequest, res: NextResponse) => {
     try {
         const { title, description, status } = await req.json();
-        const url = new URL(req.url)
+        const url = new URL(req?.url)
         if(!title || !description || !status) return res.json({message: "Invalid Data"}, {status: 422})
         const newIssue = await prisma.issue.update({
             where:{
-                id: url.searchParams.get('id')
+                id: url?.searchParams?.get('id')
             },
             data:{
                 title,
@@ -16,7 +16,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
                 status
             }
         })
-        return NextResponse.json(newIssue, {status:201})
+        return NextResponse?.json(newIssue, {status:201})
     } catch(error) {
         console.log(error)
     } finally {

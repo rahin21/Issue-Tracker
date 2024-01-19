@@ -22,10 +22,10 @@ const ViewButton = (props: {issue:issuesTypeI}) => {
         <DialogHeader>
           <DialogTitle>{props.issue.title}</DialogTitle>
         </DialogHeader>
-        <div className="space-x-2">
+        <div className="space-x-2 ">
           <DialogTitle>Description: </DialogTitle>
           <DialogDescription>
-            <MarkdownPreview source={props.issue.description} />
+            <MarkdownPreview className="mt-2 ml-[-8px]" style={{fontSize:"20px"}} source={props.issue.description} />
           </DialogDescription>
         </div>
         <div className="flex items-center space-x-2">
