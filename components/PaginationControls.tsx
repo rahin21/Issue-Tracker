@@ -3,15 +3,18 @@
 import { FC } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "./ui/button";
+import { object } from "zod";
 
 interface PaginationControlsProps {
   hasNextPage: boolean;
   hasPrevPage: boolean;
+  totalData:number;
 }
 
 const PaginationControls: FC<PaginationControlsProps> = ({
   hasNextPage,
   hasPrevPage,
+  totalData
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -31,7 +34,7 @@ const PaginationControls: FC<PaginationControlsProps> = ({
       </Button>
 
       <h1 className="text-xl font-semibold">
-        {page} of {Math.ceil(10 / Number(per_page))}
+        {page} of {Math.ceil(totalData / Number(per_page))}
       </h1>
 
       <Button

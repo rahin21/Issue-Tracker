@@ -35,8 +35,8 @@ export default function IssuePage({
   const page = searchParams["page"] ?? "1";
   const per_page = searchParams["per_page"] ?? "7";
   // mocked, skipped and limited in the real app
-  const start = (Number(page) - 1) * Number(per_page); // 0, 5, 10 ...
-  const end = start + Number(per_page); // 5, 10, 15 ...
+  const start = (Number(page) - 1) * Number(per_page); // 0, 7, 14 ...
+  const end = start + Number(per_page); // 7, 14, 21 ...
 
   const entries = data.slice(start, end);
   return (
@@ -63,6 +63,7 @@ export default function IssuePage({
           <PaginationControls
             hasNextPage={end < data.length}
             hasPrevPage={start > 0}
+            totalData={data.length}
           />
         </div>
         <Link href={"/issues/create-issue"}>
@@ -73,6 +74,7 @@ export default function IssuePage({
           <PaginationControls
             hasNextPage={end < data.length}
             hasPrevPage={start > 0}
+            totalData={data.length}
           />
         </div>
       <Table>
