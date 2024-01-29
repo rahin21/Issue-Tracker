@@ -132,18 +132,18 @@ const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue
-                        placeholder={<StatusStyle status={field.value} />}
+                        placeholder={<StatusStyle status={field.value}/>}
                       />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={"Open"}>
-                        <StatusStyle status="Open" />{" "}
+                      <SelectItem value={"Open"} >
+                        <StatusStyle status="Open" className="dark:border-0"/>{" "}
                       </SelectItem>
-                      <SelectItem value="Closed">
-                        <StatusStyle status="Closed" />{" "}
+                      <SelectItem value="Closed" >
+                        <StatusStyle status="Closed" className="dark:border-0"/>{" "}
                       </SelectItem>
                       <SelectItem value="In Progress">
-                        <StatusStyle status="In Progress" />{" "}
+                        <StatusStyle status="In Progress" className="dark:border-0"/>{" "}
                       </SelectItem>
                     </SelectContent>
                   </Select>

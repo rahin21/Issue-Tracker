@@ -61,7 +61,7 @@ export default function CreateIssuePage() {
   };
 
   return (
-    <div className="flex flex-col items-center  md:my-[7rem] my-[5rem]">
+    <div className="flex flex-col items-center md:my-[7rem] my-[5rem]">
       <h1 className="text-3xl font-bold">Create Issue</h1>
       <Form {...form}>
         <form

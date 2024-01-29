@@ -3,7 +3,7 @@
 import { FC } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "./ui/button";
-import { object } from "zod";
+
 
 interface PaginationControlsProps {
   hasNextPage: boolean;

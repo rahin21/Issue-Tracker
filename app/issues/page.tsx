@@ -49,13 +49,13 @@ export default function IssuePage({
           <SelectContent>
             <SelectItem value="All">All Status</SelectItem>
             <SelectItem value="Open">
-              <StatusStyle status="Open" />{" "}
+              <StatusStyle status="Open" className="dark:border-0"/>{" "}
             </SelectItem>
             <SelectItem value="Closed">
-              <StatusStyle status="Closed" />{" "}
+              <StatusStyle status="Closed" className="dark:border-0"/>{" "}
             </SelectItem>
             <SelectItem value="In Progress">
-              <StatusStyle status="In Progress" />{" "}
+              <StatusStyle status="In Progress" className="dark:border-0"/>{" "}
             </SelectItem>
           </SelectContent>
         </Select>

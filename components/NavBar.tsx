@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { FaBug } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import { ModeToggle } from "./ModeToggle";
 
 const NavBar = () => {
   const currentPath = usePathname();
@@ -13,9 +14,10 @@ const NavBar = () => {
   
   return (
     <div className="border-b-[1px] border-zinc-300 ">
-      <div className="flex h-14 container mx-auto space-x-6 text-xl font-semibold items-center">
+      <div className="flex justify-between h-14 container mx-auto space-x-6 text-xl font-semibold items-center">
+        <div className="flex items-center gap-4">
         <a href={"/"}>
-          <FaBug className='text-zinc-800' />
+          <FaBug className='text-foreground' />
         </a>
         <ul className="flex space-x-6">
           {navItems.map((navItem) => (
@@ -24,8 +26,8 @@ const NavBar = () => {
               href={navItem.href}
               className={
                 currentPath === navItem.href
-                  ? `text-zinc-800`
-                  : `text-zinc-500 hover:text-zinc-800 `
+                  ? `text-foreground`
+                  : `text-secondary hover:text-foreground`
               }
             >
               {" "}
@@ -33,6 +35,12 @@ const NavBar = () => {
             </Link>
           ))}
         </ul>
+
+        </div>
+        <div>
+
+        <ModeToggle/>
+        </div>
       </div>
     </div>
   );
