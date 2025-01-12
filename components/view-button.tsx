@@ -11,12 +11,14 @@ import { Button } from "./ui/button";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { issuesTypeI } from "@/types/types";
 import StatusStyle from "./status-style";
+import { EyeIcon, View } from "lucide-react";
+
 
 const ViewButton = (props: {issue:issuesTypeI}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>View</Button>
+        <Button title="view" className="px-3"><EyeIcon/></Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

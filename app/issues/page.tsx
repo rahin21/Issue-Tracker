@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Table,
   TableBody,
@@ -7,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
 import {
   Select,
   SelectContent,
@@ -17,31 +17,107 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Suspense, useState } from "react";
+import { useMemo, useState } from "react";
 import StatusStyle from "@/components/status-style";
 import ViewButton from "@/components/view-button";
 import useDisclosure from "@/hooks/useDisclosure";
 import { Skeleton } from "@/components/ui/skeleton";
 import PaginationControls from "@/components/PaginationControls";
-export const dynamic = 'force-dynamic';
+import { Delete, Edit, Trash } from "lucide-react";
+import { DeleteIssue } from "@/lib/apiCalls";
+import { format } from "date-fns";
+
+export const dynamic = "force-dynamic";
+
+// A separate component for each table row
+const IssueRow = ({
+  issue,
+  handleDelete,
+}: {
+  issue: {
+    id: string;
+    title: string;
+    status: string;
+    createdAt: string;
+    description:string;
+    updatedAt:string;
+  };
+  handleDelete: (id: string) => void;
+}) => (
+  <TableRow>
+    <TableCell>{issue.title}</TableCell>
+    <TableCell className="text-center">
+      <StatusStyle status={issue.status} />
+    </TableCell>
+    <TableCell className="text-center lg:flex justify-center items-center py-6 hidden">
+      {format(new Date(issue.createdAt), "EEEE, yyyy-MM-dd")}
+    </TableCell>
+    <TableCell className="text-center">
+      <ViewButton issue={issue} />
+    </TableCell>
+    <TableCell className="text-center">
+      <Link
+        href={{
+          pathname: "/issues/edit-issue",
+          query: { id: issue.id },
+        }}
+      >
+        <Button title="Edit" className="px-3">
+          <Edit />
+        </Button>
+      </Link>
+    </TableCell>
+    <TableCell className="text-center">
+      <Button
+        title="Delete"
+        className="bg-rose-600 px-3"
+        onClick={() => handleDelete(issue.id)}
+      >
+        <Trash />
+      </Button>
+    </TableCell>
+  </TableRow>
+);
+
 export default function IssuePage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const { data, setData } = useDisclosure();
+  const { data = [], mutate, isValidating } = useDisclosure();
   const [selectedStatus, setSelectedStatus] = useState<string>("All");
-  const array = [1, 2, 3, 4, 5, 6, 7];
-  const page = searchParams["page"] ?? "1";
-  const per_page = searchParams["per_page"] ?? "7";
-  // mocked, skipped and limited in the real app
-  const start = (Number(page) - 1) * Number(per_page); // 0, 7, 14 ...
-  const end = start + Number(per_page); // 7, 14, 21 ...
 
-  const entries = data.slice(start, end);
+  const page = Number(searchParams["page"] ?? "1");
+  const perPage = Number(searchParams["per_page"] ?? "7");
+
+  // Filter the issues based on the selected status
+  const filteredEntries = useMemo(() => {
+    return data.filter(
+      (issue) => selectedStatus === issue.status || selectedStatus === "All"
+    );
+  }, [data, selectedStatus]);
+
+  // Paginate the filtered issues
+  const paginatedEntries = useMemo(() => {
+    const start = (page - 1) * perPage;
+    return filteredEntries.slice(start, start + perPage);
+  }, [filteredEntries, page, perPage]);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await DeleteIssue(id);
+      mutate(); // Revalidate data using SWR
+    } catch (error) {
+      console.error("Error deleting issue:", error);
+    }
+  };
+
+  const skeletonArray = Array.from({ length: perPage }, (_, i) => i + 1);
+
   return (
-    <div className="">
-      <div className="flex justify-between py-5 md:py-10 ">
+    <div>
+      {/* Header with filter, pagination controls, and create button */}
+      <div className="flex justify-between py-5 md:py-10">
         <Select onValueChange={(value) => setSelectedStatus(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Status" />
@@ -49,103 +125,80 @@ export default function IssuePage({
           <SelectContent>
             <SelectItem value="All">All Status</SelectItem>
             <SelectItem value="Open">
-              <StatusStyle status="Open" className="dark:border-0"/>{" "}
+              <StatusStyle status="Open" className="dark:border-0" />
             </SelectItem>
             <SelectItem value="Closed">
-              <StatusStyle status="Closed" className="dark:border-0"/>{" "}
+              <StatusStyle status="Closed" className="dark:border-0" />
             </SelectItem>
             <SelectItem value="In Progress">
-              <StatusStyle status="In Progress" className="dark:border-0"/>{" "}
+              <StatusStyle status="In Progress" className="dark:border-0" />
             </SelectItem>
           </SelectContent>
         </Select>
-        <div className="hidden md:block">
-          <PaginationControls
-            hasNextPage={end < data.length}
-            hasPrevPage={start > 0}
-            totalData={data.length}
-          />
-        </div>
-        <Link href={"/issues/create-issue"}>
+        <PaginationControls
+          totalData={filteredEntries.length}
+        />
+        <Link href="/issues/create-issue">
           <Button>Create Issue</Button>
         </Link>
       </div>
-      <div className="flex justify-center mb-4 md:hidden">
-          <PaginationControls
-            hasNextPage={end < data.length}
-            hasPrevPage={start > 0}
-            totalData={data.length}
-          />
-        </div>
+
+      {/* Table displaying issues */}
       <Table>
         <TableHeader>
-          <TableRow className="lg:text-xl text-xs">
-            <TableHead className="lg:w-[40rem] sm:w-[40%]">Issues</TableHead>
-            <TableHead className="text-center ">Status</TableHead>
-            <TableHead className="text-center lg:flex lg:items-center lg:justify-center hidden">
-              Created At
-            </TableHead>
-            <TableHead className="text-center lg:w-[5rem] w-0">View</TableHead>
-            <TableHead className="text-center lg:w-[5rem] w-0">Edit</TableHead>
+          <TableRow>
+            <TableHead>Issues</TableHead>
+            <TableHead className="text-center w-40">Status</TableHead>
+            <TableHead className="text-center lg:flex justify-center items-center hidden ">Created At</TableHead>
+            <TableHead className="text-center w-10">View</TableHead>
+            <TableHead className="text-center w-10">Edit</TableHead>
+            <TableHead className="text-center w-10">Delete</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.length === 0
-            ? array.map((arr) => (
-                <TableRow key={arr}>
+          {isValidating
+            ? skeletonArray.map((_, i) => (
+                <TableRow key={i}>
                   <TableCell>
-                    <Skeleton className="w-[100px] h-[25px] rounded-full" />
+                    <Skeleton className="w-[150px] h-[20px] rounded-full" />
                   </TableCell>
-                  <TableCell className="pl-20">
-                    <Skeleton className="w-[80px] h-[25px] rounded-full" />
+                  <TableCell className="">
+                    <Skeleton className="w-[120px] h-[20px] rounded-full" />
                   </TableCell>
-                  <TableCell className="pl-[4.25rem]">
-                    <Skeleton className="w-[90px] h-[25px] rounded-full my-[7.25px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="w-[80px] h-[25px] rounded-full" />
+                  <TableCell className="lg:flex justify-center items-center hidden">
+                    <Skeleton className="w-[120px] h-[20px] rounded-full" />
                   </TableCell>
                   <TableCell>
-                    <Skeleton className="w-[80px] h-[25px] rounded-full" />
+                    <Skeleton className="w-[50px] h-[20px] rounded-full" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="w-[50px] h-[20px] rounded-full" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="w-[50px] h-[20px] rounded-full" />
                   </TableCell>
                 </TableRow>
               ))
-            : entries.map((issue) =>
-                selectedStatus === issue.status || selectedStatus === "All" ? (
-                  <TableRow
-                    key={issue.id}
-                    className="lg:text-xl sm:text-sm text-xs"
-                  >
-                    <TableCell>{issue.title}</TableCell>
-                    <TableCell className="text-center whitespace-nowrap ">
-                      <StatusStyle status={issue.status} />
-                    </TableCell>
-                    <TableCell className="text-center lg:block hidden">
-                      {String(new Date(issue.createdAt)).slice(0, -45)}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      <ViewButton issue={issue} />
-                    </TableCell>
-                    <TableCell className="text-center">
-                      <Link
-                        href={{
-                          pathname: "/issues/edit-issue",
-                          query: {
-                            id: issue.id,
-                          },
-                        }}
-                      >
-                        <Button>Edit</Button>
-                      </Link>
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  <div key={issue.id}></div>
-                )
+            : paginatedEntries.length > 0
+            ? paginatedEntries.map((issue) => (
+                <IssueRow key={issue.id} issue={issue} handleDelete={handleDelete} />
+              ))
+            : !isValidating && (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center">
+                    No issues found
+                  </TableCell>
+                </TableRow>
               )}
         </TableBody>
       </Table>
-      
+
+      {/* Mobile Pagination Controls */}
+      <div className="flex justify-center mb-4 md:hidden">
+        <PaginationControls
+          totalData={filteredEntries.length}
+        />
+      </div>
     </div>
   );
 }

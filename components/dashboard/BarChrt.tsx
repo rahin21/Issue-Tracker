@@ -7,7 +7,7 @@ import StatusCard from "./StatusCard";
 
 export function BarChrt() {
 
-  const {data, setData} = useDisclosure();
+  const {data} = useDisclosure();
   const {open, close, progress} = statusCount(data);
   const status = [
     {
