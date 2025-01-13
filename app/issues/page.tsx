@@ -26,7 +26,7 @@ import PaginationControls from "@/components/PaginationControls";
 import { Delete, Edit, Trash } from "lucide-react";
 import { DeleteIssue } from "@/lib/apiCalls";
 import { format } from "date-fns";
-export const dynamic = "force-dynamic";
+
 // A separate component for each table row
 const IssueRow = ({
   issue,
