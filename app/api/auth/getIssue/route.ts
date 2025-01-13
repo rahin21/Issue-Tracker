@@ -12,9 +12,6 @@ export const GET = async () => {
     // Return response with no-cache headers
     return NextResponse.json(issues, {
       status: 200,
-      headers: {
-        "Cache-Control": "no-store, max-age=0",
-      },
     });
   } catch (error) {
     console.error("Error fetching issues:", error);
