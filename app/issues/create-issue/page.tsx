@@ -1,6 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import useSWR from "swr";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import axios, { AxiosResponse } from "axios";
@@ -15,12 +16,8 @@ import {
 import { Input } from "@/components/ui/input";
 import dynamic from "next/dynamic";
 
-const SimpleMDE = dynamic(
-	() => import("react-simplemde-editor"),
-	{ ssr: false }
-);
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false });
 import "easymde/dist/easymde.min.css";
-import Error from "next/error";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -33,8 +30,12 @@ const FormSchema = z.object({
   }),
 });
 
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
 export default function CreateIssuePage() {
   const router = useRouter();
+  const { data: issues, mutate } = useSWR("/api/issues", fetcher); // SWR for fetching issues
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -45,18 +46,19 @@ export default function CreateIssuePage() {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
-      await axios
-        .post("/api/auth/createIssue", {
-          title: data.title,
-          description: data.description,
-          status: "Open",
-        })
-        .catch((err: Error) => {
-          console.log(err);
-        });
+      // Navigate to the issues page
       router.push("/issues");
+      const response = await axios.post("/api/auth/createIssue", {
+        title: data.title,
+        description: data.description,
+        status: "Open",
+      });
+      
+      // Optimistically update the cache
+      mutate([...issues, response.data], false);
+      
     } catch (error) {
-      console.log(error);
+      console.error("Error creating issue:", error);
     }
   };
 
