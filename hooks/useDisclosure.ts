@@ -4,7 +4,7 @@ import { issuesTypeI } from "@/types/types";
 // Create a fetcher function
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-// export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 const useDisclosure = () => {
   // Use SWR to fetch data
   const { data, error, isLoading, mutate, isValidating } = useSWR<issuesTypeI[]>(
