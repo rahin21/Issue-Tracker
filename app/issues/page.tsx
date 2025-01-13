@@ -83,6 +83,7 @@ export default function IssuePage({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const { data = [], mutate, isValidating } = useDisclosure();
+  mutate();
   const [selectedStatus, setSelectedStatus] = useState<string>("All");
 
   const page = Number(searchParams["page"] ?? "1");

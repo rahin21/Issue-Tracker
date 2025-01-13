@@ -12,7 +12,6 @@ const useDisclosure = () => {
     { revalidateOnFocus: true,
       revalidateOnReconnect: true,}
   );
-  // mutate();
 
   return { 
     data: data?.reverse() || [], 
