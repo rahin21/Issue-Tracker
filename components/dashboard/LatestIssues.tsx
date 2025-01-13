@@ -1,6 +1,7 @@
 "use client";
-import useDisclosure from "@/hooks/useDisclosure";
+
 import React from "react";
+import useSWR from "swr";
 import {
   Table,
   TableBody,
@@ -13,9 +14,50 @@ import StatusStyle from "../status-style";
 import ViewButton from "../view-button";
 import { Skeleton } from "../ui/skeleton";
 
+// Fetcher function for SWR
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 const LatestIssues = () => {
-  const { data } = useDisclosure();
-  const array = [1, 2, 3, 4, 5];
+  // Use SWR to fetch the latest issues
+  const { data, error, isLoading } = useSWR("/api/auth/getIssue", fetcher);
+
+  const skeletonArray = Array.from({ length: 5 }, (_, i) => i + 1);
+
+  // Handle loading state
+  if (isLoading) {
+    return (
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="whitespace-nowrap">Latest Issue</TableHead>
+            <TableHead></TableHead>
+            <TableHead></TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {skeletonArray.map((item) => (
+            <TableRow key={item}>
+              <TableCell>
+                <Skeleton className="w-[100px] h-[25px] rounded-full" />
+              </TableCell>
+              <TableCell className="pl-[8rem]">
+                <Skeleton className="w-[100px] h-[25px] rounded-full my-[7.25px]" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="w-[80px] h-[25px] rounded-full" />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    );
+  }
+
+  // Handle error state
+  if (error) {
+    return <div>Error loading issues. Please try again later.</div>;
+  }
+
   return (
     <div>
       <Table>
@@ -27,32 +69,31 @@ const LatestIssues = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.length === 0
-            ? array.map((arr) => (
-                <TableRow key={arr}>
+          {data.length > 0
+            ? data.slice(0, 5).map((issue: any) => (
+                <TableRow key={issue.id}>
+                  <TableCell>{issue.title}</TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    <StatusStyle status={issue.status} />
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <ViewButton issue={issue} />
+                  </TableCell>
+                </TableRow>
+              ))
+            : skeletonArray.map((item) => (
+                <TableRow key={item}>
                   <TableCell>
                     <Skeleton className="w-[100px] h-[25px] rounded-full" />
                   </TableCell>
                   <TableCell className="pl-[8rem]">
                     <Skeleton className="w-[100px] h-[25px] rounded-full my-[7.25px]" />
                   </TableCell>
-                  <TableCell className="">
+                  <TableCell>
                     <Skeleton className="w-[80px] h-[25px] rounded-full" />
                   </TableCell>
-                  
                 </TableRow>
-              ))
-          :data.slice(0,5-data.length).map((issue) => (
-            <TableRow key={issue.id}>
-              <TableCell>{issue.title}</TableCell>
-              <TableCell className="whitespace-nowrap">
-                <StatusStyle status={issue.status} />
-              </TableCell>
-              <TableCell className="text-center">
-                <ViewButton issue={issue}/>
-              </TableCell>
-            </TableRow>
-          ))}
+              ))}
         </TableBody>
       </Table>
     </div>
