@@ -13,13 +13,14 @@ import {
 import StatusStyle from "../status-style";
 import ViewButton from "../view-button";
 import { Skeleton } from "../ui/skeleton";
+import useDisclosure from "@/hooks/useDisclosure";
 
 // Fetcher function for SWR
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const LatestIssues = () => {
   // Use SWR to fetch the latest issues
-  const { data, error, isLoading } = useSWR("/api/auth/getIssue", fetcher);
+  const { data = [], mutate, isValidating, isLoading, error } = useDisclosure();
 
   const skeletonArray = Array.from({ length: 5 }, (_, i) => i + 1);
 
@@ -70,7 +71,7 @@ const LatestIssues = () => {
         </TableHeader>
         <TableBody>
           {data.length > 0
-            ? data.slice(0, 5).map((issue: any) => (
+            ? data.slice(0, 5).reverse().map((issue: any) => (
                 <TableRow key={issue.id}>
                   <TableCell>{issue.title}</TableCell>
                   <TableCell className="whitespace-nowrap">
