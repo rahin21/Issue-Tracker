@@ -1,18 +1,22 @@
-// @ts-nocheck
+
 import prisma from "@/prisma"
 import { NextRequest, NextResponse } from "next/server"
 export const dynamic = 'force-dynamic';
-export const GET = async (req:NextRequest) => {
-    const url = new URL(req.url)
+
+interface ParamsI{
+    id:string;
+}
+export const GET = async (req: NextRequest,{ params }: { params: ParamsI }) => {
+    const id  = params.id;
     try {
         const getUniqueIssue = await prisma.issue.findUnique({
             where:{
-                id: url.searchParams.get('id')
+                id: id || '',
             }
         })
-        return NextResponse.json(getUniqueIssue)
+        return NextResponse.json(getUniqueIssue, {status:200})
     } catch (error) {
-        console.log(error)
+        return NextResponse.json({error: "Server Error"}, {status:500})
     } finally {
         prisma.$disconnect
     }

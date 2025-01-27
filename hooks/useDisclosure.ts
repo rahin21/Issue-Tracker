@@ -7,7 +7,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const useDisclosure = () => {
   // Use SWR to fetch data
   const { data, error, isLoading, mutate, isValidating } = useSWR<issuesTypeI[]>(
-    "/api/auth/getIssue",
+    "/api/issue",
     fetcher,
     { revalidateOnFocus: true,
       revalidateOnReconnect: true,}

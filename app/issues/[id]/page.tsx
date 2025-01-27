@@ -44,14 +44,14 @@ const FormSchema = z.object({
   }),
 });
 
-const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
+const EditIssue = ({ params }: { params: { id:string } }) => {
   const router = useRouter();
   const [data, setData] = useState<issuesTypeI>();
   useEffect(() => {
     const uniqueIssue = async () => {
       try {
         await axios
-          .get(`/api/issue/${searchParams.id|| "id"}`)
+          .get(`/api/issue/${params.id|| "id"}`)
           .then((res: AxiosResponse) => {
             setData(res.data);
           });
@@ -60,7 +60,7 @@ const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
       }
     };
     uniqueIssue();
-  }, [searchParams.id]);
+  }, [params.id]);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     values: {
@@ -73,7 +73,7 @@ const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
   const onUpdate: (data: z.infer<typeof FormSchema>) => Promise<void> = async (data) => {
     try {
       await axios
-        .post(`/api/updateIssue?id=${searchParams.id}`, data)
+        .post(`/api/updateIssue?id=${params.id}`, data)
         .then((res: AxiosResponse) => console.log(res))
         .catch((err: Error) => {
           console.log(err);
@@ -86,7 +86,7 @@ const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
   const Delete = async () => {
     try {
       await axios
-        .delete(`/api/issue?id=${searchParams.id}`)
+        .delete(`/api/issue?id=${params.id}`)
         .then(() => console.log(`Issue Deleted`))
         .catch((err: Error) => console.log(err));
         router.push("/issues");

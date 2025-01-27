@@ -47,12 +47,11 @@ export default function CreateIssuePage() {
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
       // Navigate to the issues page
-      router.push("/issues");
-      const response = await axios.post("/api/auth/createIssue", {
+      const response = await axios.post("/api/createIssue", {
         title: data.title,
         description: data.description,
         status: "Open",
-      });
+      })
       
       // Optimistically update the cache
       mutate([...issues, response.data], false);
@@ -60,6 +59,7 @@ export default function CreateIssuePage() {
     } catch (error) {
       console.error("Error creating issue:", error);
     }
+    router.push("/issues");
   };
 
   return (

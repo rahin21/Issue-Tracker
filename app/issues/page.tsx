@@ -56,8 +56,7 @@ const IssueRow = ({
     <TableCell className="text-center">
       <Link
         href={{
-          pathname: "/issues/edit-issue",
-          query: { id: issue.id },
+          pathname: `/issues/${issue.id}`,
         }}
       >
         <Button title="Edit" className="px-3">
