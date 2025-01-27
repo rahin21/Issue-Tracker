@@ -47,7 +47,7 @@ export default function CreateIssuePage() {
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
       // Navigate to the issues page
-      const response = await axios.post("/api/createIssue", {
+      const response = await axios.post("/api/issue", {
         title: data.title,
         description: data.description,
         status: "Open",

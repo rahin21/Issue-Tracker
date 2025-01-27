@@ -32,24 +32,48 @@ export const GET = async () => {
   }
 };
 
-export const DELETE = async (req: NextRequest) => {
+export const POST = async (req: NextRequest) => {
   try {
-    const url = new URL(req.url);
-    const id = url.searchParams.get("id");
+    // Connect to Prisma
+    await prisma.$connect();
 
-    if (!id) {
-      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+    // Extract data from the request body
+    const { title, description, status } = await req.json();
+
+    // Validate data
+    if (!title || !description || !status) {
+      return NextResponse.json(
+        { message: "Title, description, and status are required" },
+        { status: 422 }
+      );
     }
 
-    const deletedIssue = await prisma.issue.delete({
-      where: {
-        id,
+    // Create a new issue in the database
+    const newIssue = await prisma.issue.create({
+      data: {
+        title,
+        description,
+        status,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     });
+
+    // Invalidate cache for the issues list
     revalidateTag("issues");
-    return NextResponse.json(deletedIssue, { status: 200 });
+
+    // Return success response
+    return NextResponse.json(newIssue, { status: 201 });
   } catch (error) {
-    console.error("Error deleting issue:", error);
-    return NextResponse.json({ error: "Failed to delete issue" }, { status: 500 });
+    console.error("Error creating issue:", error);
+
+    // Return error response
+    return NextResponse.json(
+      { error: "Failed to create issue" },
+      { status: 500 }
+    );
+  } finally {
+    // Ensure Prisma connection is closed
+    await prisma.$disconnect();
   }
 };
