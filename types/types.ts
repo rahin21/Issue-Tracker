@@ -6,3 +6,8 @@ export interface issuesTypeI {
     createdAt: string;
     updatedAt: string;
   }
+
+  
+export interface ParamsI{
+      id:string;
+  }

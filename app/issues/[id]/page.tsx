@@ -73,7 +73,7 @@ const EditIssue = ({ params }: { params: { id:string } }) => {
   const onUpdate: (data: z.infer<typeof FormSchema>) => Promise<void> = async (data) => {
     try {
       await axios
-        .post(`/api/updateIssue?id=${params.id}`, data)
+        .put(`/api/issue/${params.id}`, data)
         .then((res: AxiosResponse) => console.log(res))
         .catch((err: Error) => {
           console.log(err);
@@ -86,7 +86,7 @@ const EditIssue = ({ params }: { params: { id:string } }) => {
   const Delete = async () => {
     try {
       await axios
-        .delete(`/api/issue?id=${params.id}`)
+        .delete(`/api/issue/${params.id}`)
         .then(() => console.log(`Issue Deleted`))
         .catch((err: Error) => console.log(err));
         router.push("/issues");

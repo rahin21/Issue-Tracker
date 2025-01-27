@@ -73,7 +73,7 @@ const EditIssue = ({ searchParams }: { searchParams: { id:string } }) => {
   const onUpdate: (data: z.infer<typeof FormSchema>) => Promise<void> = async (data) => {
     try {
       await axios
-        .post(`/api/updateIssue?id=${searchParams.id}`, data)
+        .post(`/api/issue/${searchParams.id}`, data)
         .then((res: AxiosResponse) => console.log(res))
         .catch((err: Error) => {
           console.log(err);
