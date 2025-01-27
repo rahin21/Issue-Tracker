@@ -17,7 +17,7 @@ export const useIssues = () => {
 export const DeleteIssue = async (id: string) => {
   try {
     // Call the delete API
-    await axios.delete(`/api/issue`, { params: { id } });
+    await axios.delete(`/api/issue/${id}`);
 
     // Optimistically update the cache
     mutate("/api/issue", async (currentData: any[] | undefined) => {

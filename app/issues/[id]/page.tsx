@@ -15,10 +15,9 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 
-const SimpleMDE = dynamic(
-	() => import("react-simplemde-editor"),
-	{ ssr: false }
-);
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 import "easymde/dist/easymde.min.css";
 import { z } from "zod";
 import { issuesTypeI } from "@/types/types";
@@ -31,6 +30,7 @@ import {
 } from "@/components/ui/select";
 import StatusStyle from "@/components/status-style";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const FormSchema = z.object({
   title: z.string().min(2, {
@@ -44,14 +44,15 @@ const FormSchema = z.object({
   }),
 });
 
-const EditIssue = ({ params }: { params: { id:string } }) => {
+const EditIssue = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const [data, setData] = useState<issuesTypeI>();
+  const [loading, setLoading] = useState(false); // Spinner state
   useEffect(() => {
     const uniqueIssue = async () => {
       try {
         await axios
-          .get(`/api/issue/${params.id|| "id"}`)
+          .get(`/api/issue/${params.id || "id"}`)
           .then((res: AxiosResponse) => {
             setData(res.data);
           });
@@ -61,6 +62,7 @@ const EditIssue = ({ params }: { params: { id:string } }) => {
     };
     uniqueIssue();
   }, [params.id]);
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     values: {
@@ -70,7 +72,12 @@ const EditIssue = ({ params }: { params: { id:string } }) => {
     },
   });
 
-  const onUpdate: (data: z.infer<typeof FormSchema>) => Promise<void> = async (data) => {
+  const { isDirty } = form.formState; // Track if the form is dirty
+
+  const onUpdate: (data: z.infer<typeof FormSchema>) => Promise<void> = async (
+    data
+  ) => {
+    setLoading(true); // Start spinner
     try {
       await axios
         .put(`/api/issue/${params.id}`, data)
@@ -79,21 +86,24 @@ const EditIssue = ({ params }: { params: { id:string } }) => {
           console.log(err);
         });
       router.push("/issues");
+      setLoading(false); // Stop spinner
     } catch (error) {
       console.log(error);
     }
   };
+
   const Delete = async () => {
     try {
       await axios
         .delete(`/api/issue/${params.id}`)
         .then(() => console.log(`Issue Deleted`))
         .catch((err: Error) => console.log(err));
-        router.push("/issues");
+      router.push("/issues");
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <div className="flex flex-col items-center md:my-[7rem] my-[5rem]">
       <h1 className="text-3xl font-bold">Edit Issue</h1>
@@ -124,7 +134,7 @@ const EditIssue = ({ params }: { params: { id:string } }) => {
               control={form.control}
               name="status"
               render={({ field }) => (
-                <FormItem  className="md:mt-0 mt-5">
+                <FormItem className="md:mt-0 mt-5">
                   <FormLabel>Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
@@ -132,18 +142,24 @@ const EditIssue = ({ params }: { params: { id:string } }) => {
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue
-                        placeholder={<StatusStyle status={field.value}/>}
+                        placeholder={<StatusStyle status={field.value} />}
                       />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={"Open"} >
-                        <StatusStyle status="Open" className="dark:border-0"/>{" "}
+                      <SelectItem value={"Open"}>
+                        <StatusStyle status="Open" className="dark:border-0" />{" "}
                       </SelectItem>
-                      <SelectItem value="Closed" >
-                        <StatusStyle status="Closed" className="dark:border-0"/>{" "}
+                      <SelectItem value="Closed">
+                        <StatusStyle
+                          status="Closed"
+                          className="dark:border-0"
+                        />{" "}
                       </SelectItem>
                       <SelectItem value="In Progress">
-                        <StatusStyle status="In Progress" className="dark:border-0"/>{" "}
+                        <StatusStyle
+                          status="In Progress"
+                          className="dark:border-0"
+                        />{" "}
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -170,7 +186,16 @@ const EditIssue = ({ params }: { params: { id:string } }) => {
             <Button className="bg-rose-600 hover:bg-rose-500" onClick={Delete}>
               Delete
             </Button>
-            <Button type="submit">Update</Button>
+            <Button type="submit" disabled={loading || !isDirty}>
+              {loading ? (
+                <div className="flex items-center">
+                  <Loader2 className="animate-spin h-5 w-5 mr-2" />
+                  Updating...
+                </div>
+              ) : (
+                "Update"
+              )}
+            </Button>
           </div>
         </form>
       </Form>

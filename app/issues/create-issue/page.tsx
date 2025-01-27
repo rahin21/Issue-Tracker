@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import {
   Form,
   FormControl,
@@ -15,11 +15,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import dynamic from "next/dynamic";
-
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false });
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+import { Loader2 } from "lucide-react";
+
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false });
 
 const FormSchema = z.object({
   title: z.string().min(2, {
@@ -34,7 +35,8 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function CreateIssuePage() {
   const router = useRouter();
-  const { data: issues, mutate } = useSWR("/api/issues", fetcher); // SWR for fetching issues
+  const { data: issues, mutate } = useSWR("/api/issues", fetcher);
+  const [loading, setLoading] = useState(false); // Spinner state
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -45,21 +47,21 @@ export default function CreateIssuePage() {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    setLoading(true); // Start spinner
     try {
-      // Navigate to the issues page
       const response = await axios.post("/api/issue", {
         title: data.title,
         description: data.description,
         status: "Open",
-      })
-      
-      // Optimistically update the cache
-      mutate([...issues, response.data], false);
-      
+      });
+
+      mutate([...issues, response.data], false); // Optimistic update
     } catch (error) {
       console.error("Error creating issue:", error);
+    } finally {
+      router.push("/issues");
+      setLoading(false); // Stop spinner
     }
-    router.push("/issues");
   };
 
   return (
@@ -96,8 +98,17 @@ export default function CreateIssuePage() {
               </FormItem>
             )}
           />
-          <div className="flex justify-end">
-            <Button type="submit">Create An Issue</Button>
+          <div className="flex justify-end items-center">
+            <Button type="submit" disabled={loading}>
+              {loading ? (
+                <div className="flex items-center">
+                 <Loader2 className="animate-spin h-5 w-5 mr-2" />
+                  Creating...
+                </div>
+              ) : (
+                "Create An Issue"
+              )}
+            </Button>
           </div>
         </form>
       </Form>
