@@ -1,5 +1,5 @@
 import React from "react";
-import "../../globals.css";
+import "../globals.css";
 import { Metadata } from "next";
 import Image from "next/image";
 import bgImage from "@/public/sign-in/backgroup.jpg";
