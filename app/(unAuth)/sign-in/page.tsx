@@ -11,10 +11,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import TransparentLeftSide from "@/components/unAuth/TransparentLeftSide";
 import UnAuthTitle from "@/components/unAuth/UnAuthTitle";
+import { googleSignIn } from "@/lib/signInLogic";
 import Link from "next/link";
 import React from "react";
-import { useForm } from "react-hook-form";
-import { FaBug } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoMdLogIn } from "react-icons/io";
 
@@ -26,7 +25,7 @@ function SignInPage() {
         <TransparentLeftSide />
 
         {/* Right Side (Sign In Form) */}
-        <div className="w-1/2 flex flex-col justify-center bg-white rounded-r-xl p-6 h-full">
+        <div className="lg:w-1/2 w-full flex flex-col justify-center bg-white lg:rounded-r-xl lg:rounded-l-none rounded-l-xl rounded-r-xl p-6 h-full">
           <UnAuthTitle title="Sign In" />
           <CardContent>
             <form className="space-y-4">
@@ -46,14 +45,16 @@ function SignInPage() {
             </form>
             <div className="flex flex-col items-center">
               <CardDescription className="text-center text-foreground font-medium">
-							{`Don't`} have an account?{" "}
+                {`Don't`} have an account?{" "}
                 <Link href={`/sign-up`} className="text-blue-700 underline">
-                  Sign In
+                  Sign Up
                 </Link>
               </CardDescription>
-              <Button className="border-2 mt-3" variant={"outline"}>
-                <FcGoogle className="me-2 text-2xl " /> Continue with Google
-              </Button>
+              <form action={googleSignIn}>
+                <Button className="border-2 mt-3" >
+                  <FcGoogle className="me-2 text-2xl " /> Continue with Google
+                </Button>
+              </form>
             </div>
           </CardContent>
         </div>

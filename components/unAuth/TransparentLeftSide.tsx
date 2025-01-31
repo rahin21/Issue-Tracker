@@ -4,7 +4,7 @@ import { FaBug } from "react-icons/fa";
 
 function TransparentLeftSide() {
   return (
-    <div className="w-1/2 h-full flex flex-col items-center justify-center border-8 border-white rounded-l-2xl">
+    <div className="w-1/2 h-full lg:flex flex-col items-center justify-center border-8 border-white rounded-l-2xl hidden">
       <CardTitle className="bg-white rounded-full text-black w-fit p-4">
         <FaBug size={60} />
       </CardTitle>
