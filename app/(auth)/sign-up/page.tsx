@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import TransparentLeftSide from "@/components/unAuth/TransparentLeftSide";
 import UnAuthTitle from "@/components/unAuth/UnAuthTitle";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -55,7 +56,7 @@ function SignUpPage() {
                   Sign Up
                 </Link>
               </CardDescription>
-              <Button className="border-2 mt-3" variant={"outline"}>
+              <Button className="border-2 mt-3" variant={"outline"} onClick={()=> signIn()} >
                 <FcGoogle className="me-2 text-2xl " /> Continue with Google
               </Button>
             </div>

@@ -11,13 +11,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import TransparentLeftSide from "@/components/unAuth/TransparentLeftSide";
 import UnAuthTitle from "@/components/unAuth/UnAuthTitle";
-import { googleSignIn } from "@/lib/signInLogic";
 import Link from "next/link";
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { IoMdLogIn } from "react-icons/io";
+import { signIn } from "next-auth/react"
 
 function SignInPage() {
+
   return (
     <div className="flex justify-center items-center h-screen">
       <Card className="w-1/2 h-3/4 flex bg-transparent border-none rounded-2xl">
@@ -50,11 +51,9 @@ function SignInPage() {
                   Sign Up
                 </Link>
               </CardDescription>
-              <form action={googleSignIn}>
-                <Button className="border-2 mt-3" >
+                <Button className="border-2 mt-3" onClick={() => signIn("google")}>
                   <FcGoogle className="me-2 text-2xl " /> Continue with Google
                 </Button>
-              </form>
             </div>
           </CardContent>
         </div>
